@@ -1,0 +1,33 @@
+question 1)
+
+ x is stored in
+-> 0x1 (rdi, passed by value) for addone2
+-> 0x7fffffffdfa8 for addone (passed by value)
+
+question 2)
+
+line 12 : (*x) ++
+
+(*x)++ is equivalent to (*x) = (*x) + 1
+ 8
+-> mov (%rdi), %rax    #stores *x into temp                             =>   temp = (*x)
+-> add $0x1, %rax        #add 1 to temp, which has *x            =>  temp = (*x)+1         
+->mov %rax, (%rdi)     #stores temp to *x                                 =>  (*x) = temp = (*x) + 1   
+
+question 3)
+
+mov (%rdi), %rax
+add $0x1, %rax
+mov %rax, (%rdi)
+
+when we disassemble the main function,
+we notice that the first call of addone, rx = addone(&x);, is passing the address, thus
+-> lea    0x8(%rsp),%rdi
+which passes the effective address of x (0x1, as the x is initialized as 1) and allows the addone to work without segfault, since 0x1 is not a memory address in stack.
+
+
+However, the second time, when we call addone using
+rx = addone((long *)x);
+-> mov    0x8(%rsp),%rdi
+This passes the value in the address of x and stores it at %rdi, which later is dereferenced by the assembly line: mov (%rdi), %rax
+Since the address of x is in stack, this line causes segfault.

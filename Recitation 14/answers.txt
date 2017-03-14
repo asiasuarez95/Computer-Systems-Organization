@@ -1,0 +1,5 @@
+When we originally ran our code with out the mutex locks,
+we actually did get the same result by running our new parallel code in comparison to the sequential code. However, we believe that it is possible to have multiple threads trying to access the global variable sum and performing an incorrect computation. It is possible that a thread could access the incorrect value of sum to make the computation. 
+
+By adding mutex locks, the potential problem is extinguished and the program computes the correct result. .
+Additionally, the parallel code runs somewhat faster. 

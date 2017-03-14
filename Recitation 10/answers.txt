@@ -1,0 +1,62 @@
+gcc -c -o list.o list.c -std=gnu99 
+-> produces no error
+gcc -c -o main.o main.c -std-gnu99
+-> main file's forloop declaration has 
+	for(int i = 0; ...)
+     however, the int i must be declared outside, before forloop so that
+     int i;
+     for(i = 0; ...)
+ ->also, insert(int n), delete(int n) functions are from list.c
+     therefore, must put #include "list.h"
+
+
+linker symbols:
+	head, n_inserts, n_deletes, insert, malloc, delete, free, find
+non-linker symbols:
+	prev, curr
+defined linker symbols:
+	head, n_inserts, n_deletes, insert, delete, find
+non-defined linker symbols:
+	free, malloc
+
+//running nm list.o
+U: undefined
+C: common
+T: symbol in the text(code) section
+B: uninitialized data section
+r: read only data section
+
+T delete    ->function name
+T find          ->function name
+U free        ->undefined, from stdlib
+C head       ->common variable name
+T insert     ->function name
+U malloc   ->undefined, from stdlib
+C n_deletes  ->common variable name
+C n_inserts   ->common variable name
+
+#running nm main.o
+U __assert_fail ->undefined, from assert
+U delete ->undefined, from list.h
+U find       ->undefined, from list.h
+U insert   ->undefined, from list.h
+T main    ->function name
+B n_deletes -> uninitialized data
+B n_inserts ->  uninitialized data
+r __PRETTY_FUNCTION__.2214    ->read only
+U printf -> undefined, from stdio
+
+#running nm ./linkedlist
+delete, find, and insert are no longer undefined
+assert, free, malloc are still undefined -> imported from the standard library headers
+__libc_start_main, __printf_chk are undefined -> from the standard libary headers
+
+shared library
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f86fd21b000)
+	permission denied when I try
+	nm -D libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6
+
+#fixing code
+	since the n_inserts and n_deletes were originally defined as float, then in main defined as int, the interpretation causes the bitmap to read different value.
+therefore, I changed int declaration to float in main, and later printing %d to %lf.
+

@@ -1,0 +1,8 @@
+Linked list is, in essence, a double pointer. The node points to itself for the data reference, and the pointer (next) points to the next node.
+So, in order to use a single pointer, we would need to return a new pointer to add, as there would be no way to change the head/node pointer directly.
+
+In the current implementation, there is a line 
+*head = node;
+
+This however, would not be allowed if we use a single pointer, as
+head would be a single pointer, and dereferenced pointer would not be able to hold the node, which would be another single pointer.

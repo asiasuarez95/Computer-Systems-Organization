@@ -1,0 +1,44 @@
+You can rename a file by using the command mv. 
+For example:
+	 mv foo.txt answers.text 
+This will rename foo.txt to answers.txt
+
+Download: 
+
+wget httP://nginx.org/download/nginx-1.9.2.tar.gz
+tar -xzvf nginx-1.9.2.tar.gz
+
+
+To findwhich c source file contains the  main function for nginx use the following command:
+stud@lubuntu64:~/asiasuarez95-recitation02/nginx-1.9.2$ grep -r -H "main(" . /nginx-1.9.2/
+
+Which will give you this information:
+./src/core/nginx.c:main(int argc, char *const *argv)
+
+Therefore the file is nginx.c.
+
+To find how many line in nginx.c, 
+Type the following commands:
+
+stud@lubuntu64:~/asiasuarez95-recitation02/nginx-1.9.2/src/core$ wc -l nginx.c
+
+This produced the number of lines to be: 1362. 
+
+To check, I also performed this operation:
+
+stud@lubuntu64:~/asiasuarez95-recitation02/nginx-1.9.2/src/core$ count=0
+stud@lubuntu64:~/asiasuarez95-recitation02/nginx-1.9.2/src/core$ while read
+> do
+> ((count = $count+1))
+> done <nginx.c
+stud@lubuntu64:~/asiasuarez95-recitation02/nginx-1.9.2/src/core$ echo $count
+
+Which also produced 1362
+
+
+
+
+
+
+
+

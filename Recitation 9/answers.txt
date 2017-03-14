@@ -1,0 +1,7 @@
+The segmentation fault occurs on lines 55- 59 within the for loop. 
+Essentially, the for loop iterates from a smaller number to a larger number, so when it calls the instert method,  it falls under the else 
+statement on line 29, which calls the function recursively n times. each call is saved on the stack which is not large enough to store all of the calls.
+
+The stack frame is roughly around 140 bytes. The total avaliable stack size is 8192kb. 8192000/140 = 58514 calls that the stack can handle. 
+In all actuallity, the program was able to successfully run 58223 times without a segmentation. As you can see, 58223  is extremely close to the predicted
+58514. 
